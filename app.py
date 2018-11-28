@@ -129,12 +129,12 @@ class SearchTerm(db.Model):
                            backref='searchterms', lazy="dynamic")
     def __repr__(self):
         return self.term
-    # TODO 364: Add code for the SearchTerm model such that it has the following fields:
-    # id (Integer, primary key)
-    # term (String, up to 32 characters, unique) -- You want to ensure the database cannot save non-unique search terms
-    # This model should have a many to many relationship with gifs (a search will generate many gifs to save, and one gif could potentially appear in many searches)
+    #** Added code for the SearchTerm model such that it has the following fields:
+    #** id (Integer, primary key)
+    #** term (String, up to 32 characters, unique) -- You want to ensure the database cannot save non-unique search terms
+    #** This model should have a many to many relationship with gifs (a search will generate many gifs to save, and one gif could potentially appear in many searches)
 
-    # TODO 364: Define a __repr__ method for this model class that returns the term string
+    #** Defined a __repr__ method for this model class that returns the term string
 
 
 SearchGif = db.Table('search_gifs', db.Column('gif_id', db.Integer,db.ForeignKey('gifs.id'),
@@ -148,10 +148,10 @@ UserCollection = db.Table('user_collections',
                                       db.Column('collection_id', db.Integer,db.ForeignKey('personal_gif_collections.id'),
                                                 nullable=False))
 ########################
-######## Forms #########
+#******** Forms ********
 ########################
 
-# Provided
+#** Provided
 class RegistrationForm(FlaskForm):
     email = StringField('Email:', validators=[Required(),Length(1,64),Email()])
     username = StringField('Username:',validators=[Required(),Length(1,64),Regexp('^[A-Za-z][A-Za-z0-9_.]*$',0,'Usernames must have only letters, numbers, dots or underscores')])
@@ -159,7 +159,7 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField("Confirm Password:",validators=[Required()])
     submit = SubmitField('Register User')
 
-    #Additional checking methods for the form
+    #** Additional checking methods for the form
     def validate_email(self,field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
@@ -215,9 +215,7 @@ def get_or_create_gif(title, url):
         g = Gif(title=title, embedURL=url)
         db.session.add(g)
         db.session.commit()
-    return g
-    # Replace with code
-    # Function gets or create a Gif instance. 
+    return g 
 
 def get_or_create_search_term(term):
     """Always returns a SearchTerm instance"""
